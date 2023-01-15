@@ -10,8 +10,8 @@ from barrier import BarrierSprite
 
 
 size = width, height = 600, 150
-cloud_speed = 5
-road_speed = 7
+cloud_speed = 3
+road_speed = 10
 
 
 pygame.init()
@@ -44,6 +44,7 @@ cloud2 = CloudSprite(all_sprites, sheet, cloud_speed, 200, random.randint(30, 70
 cloud3 = CloudSprite(all_sprites, sheet, cloud_speed, 400, random.randint(30, 70))
 barrier1 = BarrierSprite(all_sprites, sheet, road_speed, 600, 97)
 barrier2 = BarrierSprite(all_sprites, sheet, road_speed, 900, 97)
+barrier3 = BarrierSprite(all_sprites, sheet, road_speed, 1200, 97)
 road_start = RoadSprite(all_sprites, sheet, road_speed, 0, 129)
 road_end = RoadSprite(all_sprites, sheet, road_speed, road_start.width, 129)
 clock = pygame.time.Clock()

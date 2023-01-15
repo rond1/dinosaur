@@ -23,11 +23,11 @@ class BarrierSprite(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x -= self.speed
-        if self.rect.x + self.part_of_sheet[2] < 0:
+        if self.rect.x < -150:
             self.part_of_sheet = random.choice(random.choice(self.random_size))
             self.image = self.sheet.subsurface(pygame.Rect(self.part_of_sheet))
             self.rect = self.image.get_rect()
-            self.rect.x = 600
+            self.rect.x = 750
             if self.part_of_sheet in self.random_size[1]:
                 self.rect.y = 97
                 self.position = -1
