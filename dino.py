@@ -28,7 +28,7 @@ class DinoSprite(pygame.sprite.Sprite):
                 if self.rect.y >= 97:
                     self.rect.y = 97
                     self.jumping = False
-            elif self.count % 5 == 0:
+            elif self.count % 3 == 0:
                 self.jumping = False
                 self.rect.y = 97
                 if self.position:

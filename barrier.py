@@ -29,6 +29,7 @@ class BarrierSprite(pygame.sprite.Sprite):
             if self.rect.x < -150:
                 self.part_of_sheet = random.choice(random.choice(self.random_size))
                 self.image = self.sheet.subsurface(pygame.Rect(self.part_of_sheet))
+                self.mask = pygame.mask.from_surface(self.image)
                 self.rect = self.image.get_rect()
                 self.rect.x = 750
                 if self.part_of_sheet in self.random_size[1]:
@@ -45,9 +46,11 @@ class BarrierSprite(pygame.sprite.Sprite):
                 if self.count % 7 == 0:
                     if self.position:
                         self.image = self.sheet.subsurface(pygame.Rect(136, 4, 41, 37))
+                        self.mask = pygame.mask.from_surface(self.image)
                         self.position = 0
                     else:
                         self.image = self.sheet.subsurface(pygame.Rect(182, 4, 41, 25))
+                        self.mask = pygame.mask.from_surface(self.image)
                         self.position = 1
                 self.count += 1
 
