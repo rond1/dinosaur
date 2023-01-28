@@ -19,3 +19,6 @@ class RoadSprite(pygame.sprite.Sprite):
             if self.rect.x + self.width < 0:
                 self.rect.x = self.width
             self.count += self.speed
+
+    def reinit(self, all_sprites, sheet, speed, x, y):
+        self.__init__(all_sprites, sheet, speed, x, y)

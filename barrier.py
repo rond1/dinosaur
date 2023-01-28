@@ -50,3 +50,6 @@ class BarrierSprite(pygame.sprite.Sprite):
                         self.image = self.sheet.subsurface(pygame.Rect(182, 4, 41, 25))
                         self.position = 1
                 self.count += 1
+
+    def reinit(self, all_sprites, sheet, speed, x, y):
+        self.__init__(all_sprites, sheet, speed, x, y)

@@ -40,3 +40,6 @@ class DinoSprite(pygame.sprite.Sprite):
             self.count += 1
         else:
             self.image = self.sheet.subsurface(pygame.Rect(1026, 4, 40, 42))
+
+    def reinit(self, all_sprites, sheet, x, y, g, height):
+        self.__init__(all_sprites, sheet, x, y, g, height)

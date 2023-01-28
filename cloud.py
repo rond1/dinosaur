@@ -20,24 +20,5 @@ class CloudSprite(pygame.sprite.Sprite):
                 self.rect.x = 600 + random.randint(0, 50)
                 self.rect.y = random.randint(30, 70)
 
-
-# running = True
-# screen.fill((255, 255, 255))
-# sheet = load_image("all.png")
-# all_sprites = pygame.sprite.Group()
-# cloud1 = CloudSprite(all_sprites, sheet, cloud_speed, 0, random.randint(30, 70))
-# cloud2 = CloudSprite(all_sprites, sheet, cloud_speed, 200, random.randint(30, 70))
-# cloud3 = CloudSprite(all_sprites, sheet, cloud_speed, 400, random.randint(30, 70))
-# road_start = RoadSprite(all_sprites, sheet, road_speed, 0, 129)
-# road_end = RoadSprite(all_sprites, sheet, road_speed, road_start.width, 129)
-# clock = pygame.time.Clock()
-# fps = 24
-# while running:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             running = False
-#     screen.fill((255, 255, 255))
-#     all_sprites.update()
-#     all_sprites.draw(screen)
-#     clock.tick(fps)
-#     pygame.display.flip()
+    def reinit(self, all_sprites, sheet, speed, x, y):
+        self.__init__(all_sprites, sheet, speed, x, y)
