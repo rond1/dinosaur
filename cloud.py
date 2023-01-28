@@ -11,12 +11,14 @@ class CloudSprite(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.speed = speed
+        self.action = True
 
     def update(self):
-        self.rect.x -= self.speed
-        if self.rect.x + self.width < 0:
-            self.rect.x = 600 + random.randint(0, 50)
-            self.rect.y = random.randint(30, 70)
+        if self.action:
+            self.rect.x -= self.speed
+            if self.rect.x + self.width < 0:
+                self.rect.x = 600 + random.randint(0, 50)
+                self.rect.y = random.randint(30, 70)
 
 
 # running = True

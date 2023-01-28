@@ -10,8 +10,12 @@ class RoadSprite(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.speed = speed
+        self.action = True
+        self.count = 0
 
     def update(self):
-        self.rect.x -= self.speed
-        if self.rect.x + self.width < 0:
-            self.rect.x = self.width
+        if self.action:
+            self.rect.x -= self.speed
+            if self.rect.x + self.width < 0:
+                self.rect.x = self.width
+            self.count += self.speed
