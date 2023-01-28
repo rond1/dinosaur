@@ -2,8 +2,9 @@ import pygame
 
 
 class DinoSprite(pygame.sprite.Sprite):
-    def __init__(self, all_sprites, sheet, x, y, g, height):
+    def __init__(self, all_sprites, sheet, x, y, g, height, fps):
         super().__init__(all_sprites)
+        self.fps = fps
         self.height = height
         self.sheet = sheet
         self.image = sheet.subsurface(pygame.Rect(938, 4, 40, 42))
@@ -22,9 +23,9 @@ class DinoSprite(pygame.sprite.Sprite):
     def update(self):
         if self.action:
             if self.jumping:
-                self.time += 1
+                self.time += 1 / self.fps
                 self.image = self.sheet.subsurface(pygame.Rect(850, 4, 40, 42))
-                self.rect.y = 97 - (self.v0 * self.time - (self.g * self.time ** 2) // 2)
+                self.rect.y = 97 - int(self.v0 * self.time - (self.g * self.time ** 2) / 2)
                 if self.rect.y >= 97:
                     self.rect.y = 97
                     self.jumping = False
@@ -41,5 +42,5 @@ class DinoSprite(pygame.sprite.Sprite):
         else:
             self.image = self.sheet.subsurface(pygame.Rect(1026, 4, 40, 42))
 
-    def reinit(self, all_sprites, sheet, x, y, g, height):
-        self.__init__(all_sprites, sheet, x, y, g, height)
+    def reinit(self, all_sprites, sheet, x, y, g, height, fps):
+        self.__init__(all_sprites, sheet, x, y, g, height, fps)

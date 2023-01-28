@@ -15,10 +15,11 @@ size = width, height = 600, 150
 cloud_speed = 3
 road_speed = 10
 dino_max_height = 97
-dino_g = 2
-fps = 24
+dino_g = 1536
+fps_start = 24
 new_game = False
-
+fps_step = 2
+frames_in_score = 4
 
 pygame.init()
 screen = pygame.display.set_mode(size)
@@ -41,6 +42,9 @@ def load_image(name, colorkey=None):
     return image
 
 
+fps = fps_start
+score = 0
+frames = 0
 running = True
 screen.fill((255, 255, 255))
 sheet = load_image("all.png")
@@ -50,7 +54,7 @@ cloud2 = CloudSprite(all_sprites, sheet, cloud_speed, 200, random.randint(30, 70
 cloud3 = CloudSprite(all_sprites, sheet, cloud_speed, 400, random.randint(30, 70))
 road_start = RoadSprite(all_sprites, sheet, road_speed, 0, 129)
 road_end = RoadSprite(all_sprites, sheet, road_speed, road_start.width, 129)
-dino = DinoSprite(all_sprites, sheet, 20, 97, dino_g, dino_max_height)
+dino = DinoSprite(all_sprites, sheet, 20, 97, dino_g, dino_max_height, fps)
 barrier1 = BarrierSprite(all_sprites, sheet, road_speed, 600, 97)
 barrier2 = BarrierSprite(all_sprites, sheet, road_speed, 900, 97)
 barrier3 = BarrierSprite(all_sprites, sheet, road_speed, 1200, 97)
@@ -62,26 +66,34 @@ clock = pygame.time.Clock()
 
 while running:
     if dino.action:
+        frames += 1
         new_game = False
+        score = frames // frames_in_score
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             if new_game:
+                frames = 0
+                fps = fps_start
+                score = 0
                 cloud1.reinit(all_sprites, sheet, cloud_speed, 0, random.randint(30, 70))
                 cloud2.reinit(all_sprites, sheet, cloud_speed, 200, random.randint(30, 70))
                 cloud3.reinit(all_sprites, sheet, cloud_speed, 400, random.randint(30, 70))
                 road_start.reinit(all_sprites, sheet, road_speed, 0, 129)
                 road_end.reinit(all_sprites, sheet, road_speed, road_start.width, 129)
-                dino.reinit(all_sprites, sheet, 20, 97, dino_g, dino_max_height)
+                dino.reinit(all_sprites, sheet, 20, 97, dino_g, dino_max_height, fps)
                 barrier1.reinit(all_sprites, sheet, road_speed, 600, 97)
                 barrier2.reinit(all_sprites, sheet, road_speed, 900, 97)
                 barrier3.reinit(all_sprites, sheet, road_speed, 1200, 97)
                 ending_sprite1.new_game()
                 ending_sprite2.new_game()
+                score = 0
+                fps = 24
             else:
-                dino.jumping = True
-                dino.time = 0
+                if not dino.jumping:
+                    dino.jumping = True
+                    dino.time = 0
     screen.fill((255, 255, 255))
     all_sprites.update()
     all_sprites.draw(screen)
@@ -99,5 +111,7 @@ while running:
         new_game = True
         ending_sprite1.reinit(all_sprites, sheet, 284, 70)
         ending_sprite2.reinit(all_sprites, sheet, 205, 30)
+    fps = fps_start + score // 100 * fps_step
+    print(fps, score)
     clock.tick(fps)
     pygame.display.flip()
