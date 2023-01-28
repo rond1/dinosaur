@@ -18,6 +18,7 @@ dino_max_height = 97
 dino_g = 2
 fps = 24
 fpp = 4
+file_score = os.path.join('data', 'high_score.txt')
 
 
 pygame.init()
@@ -65,11 +66,13 @@ score_sprite2 = ScoreSprite(all_sprites, sheet, 480, 5, score, 1)
 score_sprite3 = ScoreSprite(all_sprites, sheet, 490, 5, score, 2)
 score_sprite4 = ScoreSprite(all_sprites, sheet, 500, 5, score, 3)
 score_sprite5 = ScoreSprite(all_sprites, sheet, 510, 5, score, 4)
-score_sprite6 = ScoreSprite(all_sprites, sheet, 530, 5, high_score, 0)
-score_sprite7 = ScoreSprite(all_sprites, sheet, 540, 5, high_score, 1)
-score_sprite8 = ScoreSprite(all_sprites, sheet, 550, 5, high_score, 2)
-score_sprite9 = ScoreSprite(all_sprites, sheet, 560, 5, high_score, 3)
-score_sprite10 = ScoreSprite(all_sprites, sheet, 570, 5, high_score, 4)
+with open(file_score, 'r') as f:
+    old_data = f.read()
+    score_sprite6 = ScoreSprite(all_sprites, sheet, 530, 5, int(old_data), 0)
+    score_sprite7 = ScoreSprite(all_sprites, sheet, 540, 5, int(old_data), 1)
+    score_sprite8 = ScoreSprite(all_sprites, sheet, 550, 5, int(old_data), 2)
+    score_sprite9 = ScoreSprite(all_sprites, sheet, 560, 5, int(old_data), 3)
+    score_sprite10 = ScoreSprite(all_sprites, sheet, 570, 5, int(old_data), 4)
 ending_sprite1 = ArrowSprite(all_sprites, sheet, 284, 70)
 ending_sprite1.new_game()
 ending_sprite2 = GameoverSprite(all_sprites, sheet, 205, 30)
@@ -134,6 +137,12 @@ while running:
         barrier3.action = False
         dino.action = False
         if score > high_score:
+            with open(file_score, 'r') as f:
+                old_data = f.read()
+            new_data = old_data.replace('0' * (5 - len(str(high_score))) + str(high_score),
+                                        '0' * (5 - len(str(score))) + str(score))
+            with open(file_score, 'w') as f:
+                f.write(new_data)
             high_score = score
         new_game = True
         ending_sprite1.reinit(all_sprites, sheet, 284, 70)
