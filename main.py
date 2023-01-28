@@ -9,6 +9,7 @@ from cloud import CloudSprite
 from barrier import BarrierSprite
 from dino import DinoSprite
 from ending import ArrowSprite, GameoverSprite
+from symbols import ScoreSprite, LettersSprite
 
 
 size = width, height = 600, 150
@@ -42,6 +43,7 @@ def load_image(name, colorkey=None):
 
 new_game = False
 score = 0
+high_score = score
 frames = 0
 stop = False
 running = True
@@ -57,6 +59,17 @@ dino = DinoSprite(all_sprites, sheet, 20, 97, dino_g, dino_max_height)
 barrier1 = BarrierSprite(all_sprites, sheet, speed, 600, 97)
 barrier2 = BarrierSprite(all_sprites, sheet, speed, 900, 97)
 barrier3 = BarrierSprite(all_sprites, sheet, speed, 1200, 97)
+letters = LettersSprite(all_sprites, sheet, 440, 5)
+score_sprite1 = ScoreSprite(all_sprites, sheet, 470, 5, score, 0)
+score_sprite2 = ScoreSprite(all_sprites, sheet, 480, 5, score, 1)
+score_sprite3 = ScoreSprite(all_sprites, sheet, 490, 5, score, 2)
+score_sprite4 = ScoreSprite(all_sprites, sheet, 500, 5, score, 3)
+score_sprite5 = ScoreSprite(all_sprites, sheet, 510, 5, score, 4)
+score_sprite6 = ScoreSprite(all_sprites, sheet, 530, 5, high_score, 0)
+score_sprite7 = ScoreSprite(all_sprites, sheet, 540, 5, high_score, 1)
+score_sprite8 = ScoreSprite(all_sprites, sheet, 550, 5, high_score, 2)
+score_sprite9 = ScoreSprite(all_sprites, sheet, 560, 5, high_score, 3)
+score_sprite10 = ScoreSprite(all_sprites, sheet, 570, 5, high_score, 4)
 ending_sprite1 = ArrowSprite(all_sprites, sheet, 284, 70)
 ending_sprite1.new_game()
 ending_sprite2 = GameoverSprite(all_sprites, sheet, 205, 30)
@@ -69,6 +82,11 @@ while running:
         frames += 1
         new_game = False
         score = int(frames / fpp / speed * current_speed)
+        score_sprite1.score = '0' * (5 - len(str(score))) + str(score)
+        score_sprite2.score = '0' * (5 - len(str(score))) + str(score)
+        score_sprite3.score = '0' * (5 - len(str(score))) + str(score)
+        score_sprite4.score = '0' * (5 - len(str(score))) + str(score)
+        score_sprite5.score = '0' * (5 - len(str(score))) + str(score)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -85,6 +103,16 @@ while running:
                 barrier3.reinit(all_sprites, sheet, speed, 1200, 97)
                 ending_sprite1.new_game()
                 ending_sprite2.new_game()
+                score_sprite1.reinit(all_sprites, sheet, 470, 5, score, 0)
+                score_sprite2.reinit(all_sprites, sheet, 480, 5, score, 1)
+                score_sprite3.reinit(all_sprites, sheet, 490, 5, score, 2)
+                score_sprite4.reinit(all_sprites, sheet, 500, 5, score, 3)
+                score_sprite5.reinit(all_sprites, sheet, 510, 5, score, 4)
+                score_sprite6.reinit(all_sprites, sheet, 530, 5, high_score, 0)
+                score_sprite7.reinit(all_sprites, sheet, 540, 5, high_score, 1)
+                score_sprite8.reinit(all_sprites, sheet, 550, 5, high_score, 2)
+                score_sprite9.reinit(all_sprites, sheet, 560, 5, high_score, 3)
+                score_sprite10.reinit(all_sprites, sheet, 570, 5, high_score, 4)
                 score = 0
                 frames = 0
             else:
@@ -105,6 +133,8 @@ while running:
         barrier2.action = False
         barrier3.action = False
         dino.action = False
+        if score > high_score:
+            high_score = score
         new_game = True
         ending_sprite1.reinit(all_sprites, sheet, 284, 70)
         ending_sprite2.reinit(all_sprites, sheet, 205, 30)
