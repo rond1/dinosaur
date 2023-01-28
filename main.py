@@ -18,9 +18,9 @@ dino_max_height = 97
 dino_g = 2
 fps = 24
 fpp = 4
-file_score = os.path.join('data', 'high_score.txt')
 
 
+pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.init()
 screen = pygame.display.set_mode(size)
 
@@ -42,6 +42,10 @@ def load_image(name, colorkey=None):
     return image
 
 
+file_score = os.path.join('data', 'high_score.txt')
+sound_hit = pygame.mixer.Sound(os.path.join('data', 'hit.mp3'))
+sound_jump = pygame.mixer.Sound(os.path.join('data', 'jump.mp3'))
+sound_score = pygame.mixer.Sound(os.path.join('data', 'score.mp3'))
 new_game = False
 score = 0
 high_score = score
@@ -79,6 +83,7 @@ ending_sprite2 = GameoverSprite(all_sprites, sheet, 205, 30)
 ending_sprite2.new_game()
 clock = pygame.time.Clock()
 current_speed = speed
+level = 0
 
 while running:
     if dino.action:
@@ -121,13 +126,15 @@ while running:
                 frames = 0
             else:
                 if not dino.jumping:
+                    sound_jump.play()
                     dino.jumping = True
                     dino.time = 0
     screen.fill((255, 255, 255))
     all_sprites.update()
     all_sprites.draw(screen)
-    if pygame.sprite.collide_mask(dino, barrier1) or pygame.sprite.collide_mask(dino, barrier2) or \
-            pygame.sprite.collide_mask(dino, barrier3):
+    if (pygame.sprite.collide_mask(dino, barrier1) or pygame.sprite.collide_mask(dino, barrier2) or \
+            pygame.sprite.collide_mask(dino, barrier3)) and dino.action:
+        sound_hit.play()
         cloud1.action = False
         cloud2.action = False
         cloud3.action = False
@@ -144,14 +151,18 @@ while running:
         new_game = True
         ending_sprite1.reinit(all_sprites, sheet, 284, 70)
         ending_sprite2.reinit(all_sprites, sheet, 205, 30)
-    current_speed = speed + score // 100
-    road_start.speed = current_speed
-    road_end.speed = current_speed
-    barrier1.speed = current_speed
-    barrier2.speed = current_speed
-    barrier3.speed = current_speed
-    cloud1.speed = current_speed // 3
-    cloud2.speed = current_speed // 3
-    cloud3.speed = current_speed // 3
+    new_level = score // 100
+    if new_level > level:
+        level = new_level
+        sound_score.play()
+        current_speed = speed + level
+        road_start.speed = current_speed
+        road_end.speed = current_speed
+        barrier1.speed = current_speed
+        barrier2.speed = current_speed
+        barrier3.speed = current_speed
+        cloud1.speed = current_speed // 3
+        cloud2.speed = current_speed // 3
+        cloud3.speed = current_speed // 3
     clock.tick(fps)
     pygame.display.flip()
