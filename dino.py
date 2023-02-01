@@ -28,6 +28,7 @@ class DinoSprite(pygame.sprite.Sprite):
                 if self.rect.y >= 97:
                     self.rect.y = 97
                     self.jumping = False
+                # прыжок
             elif self.count % 3 == 0:
                 self.jumping = False
                 self.rect.y = 97
@@ -37,9 +38,11 @@ class DinoSprite(pygame.sprite.Sprite):
                 else:
                     self.image = self.sheet.subsurface(pygame.Rect(938, 4, 40, 42))
                     self.position = 1
+                # бег или изменение картинки без движения
             self.count += 1
         else:
             self.image = self.sheet.subsurface(pygame.Rect(1026, 4, 40, 42))
+            # столкновение
 
     def reinit(self, all_sprites, sheet, x, y, g, height):
         self.__init__(all_sprites, sheet, x, y, g, height)

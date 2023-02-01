@@ -19,6 +19,7 @@ class CloudSprite(pygame.sprite.Sprite):
             if self.rect.x + self.width < 0:
                 self.rect.x = 600 + random.randint(0, 50)
                 self.rect.y = random.randint(30, 70)
+            # бесконечное движение облаков
 
     def reinit(self, all_sprites, sheet, speed, x, y):
         self.__init__(all_sprites, sheet, speed, x, y)

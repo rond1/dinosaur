@@ -18,6 +18,7 @@ dino_max_height = 97
 dino_g = 2
 fps = 24
 fpp = 4
+# переменные-константы
 
 
 pygame.mixer.pre_init(44100, -16, 1, 512)
@@ -40,20 +41,24 @@ def load_image(name, colorkey=None):
     else:
         image = image.convert_alpha()
     return image
+# функция загрузки изображения
 
 
 file_score = os.path.join('data', 'high_score.txt')
 sound_hit = pygame.mixer.Sound(os.path.join('data', 'hit.mp3'))
 sound_jump = pygame.mixer.Sound(os.path.join('data', 'jump.mp3'))
 sound_score = pygame.mixer.Sound(os.path.join('data', 'score.mp3'))
+# загрузка файлов
 new_game = False
 score = 0
 high_score = score
 frames = 0
 stop = False
 running = True
+# изменяемые переменные
 screen.fill((255, 255, 255))
 sheet = load_image("all.png")
+# холст
 all_sprites = pygame.sprite.Group()
 cloud1 = CloudSprite(all_sprites, sheet, speed // 3, 0, random.randint(30, 70))
 cloud2 = CloudSprite(all_sprites, sheet, speed // 3, 200, random.randint(30, 70))
@@ -81,6 +86,7 @@ ending_sprite1 = ArrowSprite(all_sprites, sheet, 284, 70)
 ending_sprite1.new_game()
 ending_sprite2 = GameoverSprite(all_sprites, sheet, 205, 30)
 ending_sprite2.new_game()
+# спрайты
 clock = pygame.time.Clock()
 current_speed = speed
 level = 0
@@ -95,6 +101,7 @@ while running:
         score_sprite3.score = '0' * (5 - len(str(score))) + str(score)
         score_sprite4.score = '0' * (5 - len(str(score))) + str(score)
         score_sprite5.score = '0' * (5 - len(str(score))) + str(score)
+        # изменение очков
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -124,15 +131,17 @@ while running:
                 score_sprite10.reinit(all_sprites, sheet, 510, 5, high_score, 4)
                 score = 0
                 frames = 0
+                # сбрасывания при новой игре
             else:
                 if not dino.jumping:
                     sound_jump.play()
                     dino.jumping = True
                     dino.time = 0
+                # прыжок динозавра
     screen.fill((255, 255, 255))
     all_sprites.update()
     all_sprites.draw(screen)
-    if (pygame.sprite.collide_mask(dino, barrier1) or pygame.sprite.collide_mask(dino, barrier2) or \
+    if (pygame.sprite.collide_mask(dino, barrier1) or pygame.sprite.collide_mask(dino, barrier2) or
             pygame.sprite.collide_mask(dino, barrier3)) and dino.action:
         sound_hit.play()
         cloud1.action = False
@@ -151,6 +160,7 @@ while running:
         new_game = True
         ending_sprite1.reinit(all_sprites, sheet, 284, 70)
         ending_sprite2.reinit(all_sprites, sheet, 205, 30)
+        # манипуляции при столкновении
     new_level = score // 100
     if new_level > level:
         level = new_level
@@ -164,5 +174,6 @@ while running:
         cloud1.speed = current_speed // 3
         cloud2.speed = current_speed // 3
         cloud3.speed = current_speed // 3
+        # увеличение скорости
     clock.tick(fps)
     pygame.display.flip()

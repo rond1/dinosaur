@@ -17,6 +17,7 @@ class RoadSprite(pygame.sprite.Sprite):
             self.rect.x -= self.speed
             if self.rect.x + self.width < 0:
                 self.rect.x = self.width
+            # подстановка дорог, организация зацикленности
 
     def reinit(self, all_sprites, sheet, speed, x, y):
         self.__init__(all_sprites, sheet, speed, x, y)

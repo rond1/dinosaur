@@ -42,6 +42,7 @@ class BarrierSprite(pygame.sprite.Sprite):
                     self.rect.y = random.choice([60, 75, 90])
                     self.count = 0
                     self.position = 1
+                # смена препятствия и движение
             elif self.position >= 0:
                 if self.count % 7 == 0:
                     if self.position:
@@ -52,6 +53,7 @@ class BarrierSprite(pygame.sprite.Sprite):
                         self.image = self.sheet.subsurface(pygame.Rect(182, 4, 41, 25))
                         self.mask = pygame.mask.from_surface(self.image)
                         self.position = 1
+                    # анимация птицы
                 self.count += 1
 
     def reinit(self, all_sprites, sheet, speed, x, y):
